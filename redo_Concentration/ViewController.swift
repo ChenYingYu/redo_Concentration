@@ -18,11 +18,11 @@ class ViewController: UIViewController
     
     @IBOutlet var cardButtons: [UIButton]!
     
+    @IBOutlet var newGameButton: [UIButton]!
+    
+    @IBOutlet var background: UIView!
     
     @IBAction func touchCard(_ sender: UIButton) {
-        if checkIfThemeIsChosen == 0 {
-            chooseTheme(at: 1)
-        }
         game.flipCount += 1
         flipCountLabel.text = "Flip: \(game.flipCount)"
         if let cardNumber = cardButtons.index(of: sender) {
@@ -34,7 +34,17 @@ class ViewController: UIViewController
         }
     }
     
+    var colorOfButtons = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
+    var colorOfBackground = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
     func updateViewFromModel() {
+        let gameButton = newGameButton[0]
+        gameButton.backgroundColor = colorOfButtons
+        gameButton.setTitleColor(colorOfBackground, for: UIControlState.normal)
+        flipCountLabel.textColor = colorOfButtons
+        scoreLabel.textColor = colorOfButtons
+        background.backgroundColor = colorOfBackground
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -43,26 +53,38 @@ class ViewController: UIViewController
                 button.backgroundColor = #colorLiteral(red: 0.9818583131, green: 0.9282233715, blue: 1, alpha: 1)
             } else {
                 button.setTitle("", for: UIControlState.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : colorOfButtons
             }
         }
     }
     
     var emojiChoices = [String]()
     
-    var checkIfThemeIsChosen = 0
-    
-    func chooseTheme (at index: Int) {
-        checkIfThemeIsChosen = 1
+    func chooseTheme () {
         let theme = ["sports": ["⚽️","🏀","🏈","⚾️","🎾","🏐"],
                      "cars": ["🚗","🚕","🚙","🚌","🚎","🏎"],
                      "halloween": ["👻","🎃","🍭","🍬","👿","🦇"],
                      "faces": ["😄","😇","😍","😎","🤠","🤡"],
                      "animals": ["🐶","🐭","🐹","🐼","🐸","🐷"],
-                     "fruits": ["🍉","🍇","🍓","🍋","🥝","🍒"]]
+                     "weather": ["☁️","❄️","🌙","⭐️","💧","⚡️"]]
+        let themeBackgroundColor = ["sports": #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1),
+                          "cars": #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1),
+                          "halloween": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
+                          "faces": #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1),
+                          "animals": #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1),
+                          "weather": #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)]
+        let themeColorOfCard = ["sports": #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
+                                "cars": #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1),
+                                "halloween": #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1),
+                                "faces": #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),
+                                "animals": #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1),
+                                "weather": #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)]
+        
         let themeKeys = Array(theme.keys)
         let themeIndex = Int(arc4random_uniform(UInt32(themeKeys.count)))
         emojiChoices = Array(theme.values)[themeIndex]
+        colorOfBackground = Array(themeBackgroundColor.values)[themeIndex]
+        colorOfButtons = Array(themeColorOfCard.values)[themeIndex]
     }
     
     var emoji = [Int:String]()
@@ -78,6 +100,7 @@ class ViewController: UIViewController
     
     @IBAction func startNewGame(_ sender: UIButton) {
         game.flipCount = 0
+        flipCountLabel.text = "Flips: 0"
         game.score = 0
         scoreLabel.text = "Score: 0"
         emojiChoices += emoji.values
@@ -85,12 +108,12 @@ class ViewController: UIViewController
         for index in cardButtons.indices {
             let button = cardButtons[index]
             button.setTitle("", for: UIControlState.normal)
-            button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
             game.cards[index].isFaceUp = false
             game.cards[index].isMatched = false
             game.indexOfOneAndOnlyFaceUpCard = nil
         }
-        chooseTheme(at: 1)
+        chooseTheme()
+        updateViewFromModel()
     }
     
 }

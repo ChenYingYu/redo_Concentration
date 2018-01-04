@@ -155,6 +155,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="background" destination="8bC-Xf-vdC" id="RWF-xE-aLN"/>
                         <outlet property="flipCountLabel" destination="2TO-af-tbE" id="npE-XD-0Zv"/>
                         <outlet property="scoreLabel" destination="upM-O8-90y" id="y1E-hB-v7Y"/>
                         <outletCollection property="flipCountLabel" destination="2TO-af-tbE" collectionClass="NSMutableArray" id="1je-qJ-rbb"/>
@@ -170,6 +171,7 @@
                         <outletCollection property="cardButtons" destination="ahQ-cM-jdt" collectionClass="NSMutableArray" id="QO4-YZ-FV6"/>
                         <outletCollection property="cardButtons" destination="MCj-Lx-Fkv" collectionClass="NSMutableArray" id="J5t-Zn-EyW"/>
                         <outletCollection property="cardButtons" destination="CnW-Jx-TbR" collectionClass="NSMutableArray" id="ukb-I5-412"/>
+                        <outletCollection property="newGameButton" destination="Ypl-6M-SqU" collectionClass="NSMutableArray" id="BZe-e5-y4z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
