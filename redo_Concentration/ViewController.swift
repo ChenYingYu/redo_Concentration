@@ -22,7 +22,13 @@ class ViewController: UIViewController
     
     @IBOutlet var background: UIView!
     
+    var alreadyChoseTheme = false
+    
     @IBAction func touchCard(_ sender: UIButton) {
+        if alreadyChoseTheme == false {
+            chooseTheme()
+            alreadyChoseTheme = true
+        }
         game.flipCount += 1
         flipCountLabel.text = "Flip: \(game.flipCount)"
         if let cardNumber = cardButtons.index(of: sender) {
@@ -34,9 +40,9 @@ class ViewController: UIViewController
         }
     }
     
-    var colorOfButtons = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    var colorOfButtons = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
-    var colorOfBackground = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    var colorOfBackground = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
     func updateViewFromModel() {
         let gameButton = newGameButton[0]

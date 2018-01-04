@@ -20,9 +20,28 @@ class Concentration
     
     var chosenBefore = [Int]()
     
+    var startTime = Date()
+    
+    var endTime = Date()
+    
+    func timer() {
+        endTime = Date()
+        let timeInterval: Double = endTime.timeIntervalSince(startTime)
+        switch timeInterval {
+        case 0..<0.4:
+            score += 2
+        case 0.4..<0.5:
+            score += 1
+        default:
+            score += 0
+        }
+        print("time: \(timeInterval)")
+    }
+    
     func chooseCard(at index: Int) {
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
+                timer()
                 // check if cards match
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
@@ -38,6 +57,7 @@ class Concentration
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = nil
             } else {
+                startTime = Date()
                 // either no cards or 2 cards are face up
                 for flipDownIndex in cards.indices {
                     cards[flipDownIndex].isFaceUp = false
